@@ -5,7 +5,7 @@ ZSH=$HOME/.oh-my-zsh
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-ZSH_THEME="robbyrussell"
+ZSH_THEME="afowler"
 
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
@@ -40,23 +40,34 @@ ZSH_THEME="robbyrussell"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git)
+
+cmd_exists () {
+    type "$1" &> /dev/null ;
+}
+
+plugins=(git zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
+autoload -U colors && colors
+
 # Customize to your needs...
 export PATH=$PATH:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/X11/bin:/usr/local/MacGPG2/bin
-eval `keychain --eval --agents ssh --inherit any`
-#eval `gpg-agent --enable-ssh-support --daemon --write-env-file ~/.gnupg/.agent_env`
-#source ~/.gnupg/.agent_env
 
+if cmd_exists keychain ; then
+    eval `keychain --eval --agents ssh --inherit any`
+    #eval `gpg-agent --enable-ssh-support --daemon --write-env-file ~/.gnupg/.agent_env`
+    #source ~/.gnupg/.agent_env
+fi
 gnupginf="${HOME}/.gpg-agent-info"
-if pgrep -u "${USER}" gpg-agent >/dev/null 2>&1; then
-    eval `cat $gnupginf`
-    eval `cut -d= -f1 $gnupginf | xargs echo export`
-else
-#    eval `gpg-agent -s --enable-ssh-support --daemon --write-env-file $gnupginf`
-     eval `gpg-agent -s --daemon --write-env-file $gnupginf`
+if cmd_exists gpg-agent; then
+    if pgrep -u "${USER}" gpg-agent >/dev/null 2>&1; then
+        eval `cat $gnupginf`
+        eval `cut -d= -f1 $gnupginf | xargs echo export`
+    else
+        #eval `gpg-agent -s --enable-ssh-support --daemon --write-env-file $gnupginf`
+        eval `gpg-agent -s --daemon --write-env-file $gnupginf`
+    fi
 fi
 
 BROPATH="/opt/bro/bin"
@@ -76,8 +87,6 @@ SVN_EDITOR=$EDITOR
 export EDITOR VISUAL SVN_EDITOR
 
 fpath=(/usr/local/share/zsh-completions $fpath)
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-export ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR=/usr/local/share/zsh-syntax-highlighting/highlighters
 
 export PIP_REQUIRE_VIRTUALENV=true
 export PIP_DOWNLOAD_CACHE=$HOME/.pip/cache
