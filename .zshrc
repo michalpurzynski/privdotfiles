@@ -54,21 +54,21 @@ autoload -U colors && colors
 # Customize to your needs...
 export PATH=$PATH:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/X11/bin:/usr/local/MacGPG2/bin
 
-if cmd_exists keychain ; then
-    eval `keychain --eval --agents ssh --inherit any`
-    #eval `gpg-agent --enable-ssh-support --daemon --write-env-file ~/.gnupg/.agent_env`
-    #source ~/.gnupg/.agent_env
-fi
-gnupginf="${HOME}/.gpg-agent-info"
-if cmd_exists gpg-agent; then
-    if pgrep -u "${USER}" gpg-agent >/dev/null 2>&1; then
-        eval `cat $gnupginf`
-        eval `cut -d= -f1 $gnupginf | xargs echo export`
-    else
-        #eval `gpg-agent -s --enable-ssh-support --daemon --write-env-file $gnupginf`
-        eval `gpg-agent -s --daemon --write-env-file $gnupginf`
-    fi
-fi
+#if cmd_exists keychain ; then
+#    eval `keychain --eval --agents ssh --inherit any`
+#    #eval `gpg-agent --enable-ssh-support --daemon --write-env-file ~/.gnupg/.agent_env`
+#    #source ~/.gnupg/.agent_env
+#fi
+#gnupginf="${HOME}/.gpg-agent-info"
+#if cmd_exists gpg-agent; then
+#    if pgrep -u "${USER}" gpg-agent >/dev/null 2>&1; then
+#        eval `cat $gnupginf`
+#        eval `cut -d= -f1 $gnupginf | xargs echo export`
+#    else
+#        #eval `gpg-agent -s --enable-ssh-support --daemon --write-env-file $gnupginf`
+#        eval `gpg-agent -s --daemon --write-env-file $gnupginf`
+#    fi
+#fi
 
 BROPATH="/opt/bro/bin"
 if [ -d "${BROPATH}" ]; then
