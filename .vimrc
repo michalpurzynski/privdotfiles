@@ -10,4 +10,4 @@ set tabstop=4
 set nobackup
 set nowb
 set directory=~/tmp
-
+set cindent
