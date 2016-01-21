@@ -1,23 +1,70 @@
-export ZSH=~/.zsh
-ZSH_THEME=afowler
+export ZSH=$HOME/.zsh
 
 autoload -U compinit promptinit
 autoload -U colors && colors
-
-compinit
-promptinit
-prompt redhat
+autoload -U compaudit
 
 setopt completealiases
 setopt HIST_IGNORE_DUPS
 
+export HISTFILE=~/.zsh_history
+export HISTSIZE=10000
+export SAVEHIST=10000
+
 ttyctl -f
+
+fpath=($ZSH/functions $ZSH/completions $fpath)
+
+ZSH_CUSTOM="$ZSH/custom"
+ZSH_CACHE_DIR="$ZSH/cache/"
+
+is_plugin() {
+  local base_dir=$1
+  local name=$2
+  test -f $base_dir/plugins/$name/$name.plugin.zsh \
+    || test -f $base_dir/plugins/$name/_$name
+}
+# Add all defined plugins to fpath. This must be done
+# before running compinit.
+for plugin ($plugins); do
+  if is_plugin $ZSH_CUSTOM $plugin; then
+    fpath=($ZSH_CUSTOM/plugins/$plugin $fpath)
+  elif is_plugin $ZSH $plugin; then
+    fpath=($ZSH/plugins/$plugin $fpath)
+  fi
+done
+
+# Figure out the SHORT hostname
+if [[ "$OSTYPE" = darwin* ]]; then
+  # OS X's $HOST changes with dhcp, etc. Use ComputerName if possible.
+  SHORT_HOST=$(scutil --get ComputerName 2>/dev/null) || SHORT_HOST=${HOST/.*/}
+else
+  SHORT_HOST=${HOST/.*/}
+fi
+
+if [ -z "$ZSH_COMPDUMP" ]; then
+  ZSH_COMPDUMP="${ZDOTDIR:-${HOME}}/.zcompdump-${SHORT_HOST}-${ZSH_VERSION}"
+fi
+
+compinit -d "${ZSH_COMPDUMP}"
+
+plugins=(brew brew-cask colored-man-pages colorize common-aliases cp history-substring-search jsontools last-working-dir nmap pip rsync screen supervisor systemd ubuntu git zsh-syntax-highlighting)
+# aws vagrant
+
+for plugin ($plugins); do
+    source $ZSH/$plugin/$plugin.plugin.zsh
+done
+
+promptinit
+
+source "$ZSH/robbyrussell.zsh"
+autoload -U colors && colors
+setopt promptsubst
+source $ZSH/git.zsh
 
 cmd_exists () {
     type "$1" &> /dev/null ;
 }
-
-plugins=(git zsh-syntax-highlighting osx)
 
 export PATH=$PATH:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/X11/bin:/usr/local/MacGPG2/bin
 
@@ -61,3 +108,6 @@ export PIP_DOWNLOAD_CACHE=$HOME/.pip/cache
 alias lpass-moz="HOME=~/.lp-moz lpass"
 
 export ANSIBLE_HOSTS=~/.ansible_hosts
+
+[[ -n "${key[PageUp]}"   ]]  && bindkey  "${key[PageUp]}"    history-beginning-search-backward
+[[ -n "${key[PageDown]}" ]]  && bindkey  "${key[PageDown]}"  history-beginning-search-forward
