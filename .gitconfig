@@ -1,0 +1,10 @@
+# This is Git's per-user configuration file.
+[core]
+# Please adapt and uncomment the following lines:
+	user = Michal Purzynski
+	email = 
+[user]
+	name = Michal Purzynski
+	email = 
+[push]
+	default = simple
