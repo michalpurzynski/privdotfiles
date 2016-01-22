@@ -111,3 +111,5 @@ export ANSIBLE_HOSTS=~/.ansible_hosts
 
 [[ -n "${key[PageUp]}"   ]]  && bindkey  "${key[PageUp]}"    history-beginning-search-backward
 [[ -n "${key[PageDown]}" ]]  && bindkey  "${key[PageDown]}"  history-beginning-search-forward
+
+alias bro-column="sed \"s/fields.//;s/types.//\" | column -s $'\t' -t"
