@@ -13,7 +13,7 @@ export SAVEHIST=10000
 
 ttyctl -f
 
-fpath=($ZSH/functions $ZSH/completions $fpath)
+fpath=($ZSH/zsh-completions/src $fpath)
 
 ZSH_CUSTOM="$ZSH/custom"
 ZSH_CACHE_DIR="$ZSH/cache/"
@@ -48,7 +48,7 @@ fi
 
 compinit -d "${ZSH_COMPDUMP}"
 
-plugins=(brew brew-cask colored-man-pages colorize common-aliases cp history-substring-search jsontools last-working-dir nmap pip rsync screen supervisor systemd ubuntu git zsh-syntax-highlighting)
+plugins=(brew brew-cask colored-man-pages colorize common-aliases cp history-substring-search jsontools last-working-dir nmap pip rsync screen supervisor systemd ubuntu git zsh-syntax-highlighting gitfast)
 # aws vagrant
 
 for plugin ($plugins); do
