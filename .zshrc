@@ -3,6 +3,7 @@ export ZSH=$HOME/.zsh
 autoload -U compinit promptinit
 autoload -U colors && colors
 autoload -U compaudit
+autoload -Uz is-at-least
 
 setopt completealiases
 setopt HIST_IGNORE_DUPS
