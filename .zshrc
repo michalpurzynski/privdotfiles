@@ -46,7 +46,7 @@ if [ -z "$ZSH_COMPDUMP" ]; then
   ZSH_COMPDUMP="${ZDOTDIR:-${HOME}}/.zcompdump-${SHORT_HOST}-${ZSH_VERSION}"
 fi
 
-compinit -d "${ZSH_COMPDUMP}"
+compinit -d "${ZSH_COMPDUMP}" -u
 
 plugins=(brew brew-cask colored-man-pages colorize common-aliases cp history-substring-search jsontools last-working-dir nmap pip rsync screen supervisor systemd ubuntu git zsh-syntax-highlighting gitfast)
 # aws vagrant
