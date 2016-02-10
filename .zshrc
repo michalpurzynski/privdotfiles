@@ -49,7 +49,7 @@ fi
 
 compinit -d "${ZSH_COMPDUMP}" -u
 
-plugins=(brew brew-cask colored-man-pages colorize common-aliases cp history-substring-search jsontools last-working-dir nmap pip rsync screen supervisor systemd ubuntu git zsh-syntax-highlighting gitfast)
+plugins=(brew brew-cask colored-man-pages colorize common-aliases cp history-substring-search jsontools nmap pip rsync screen supervisor systemd ubuntu git zsh-syntax-highlighting gitfast)
 # aws vagrant
 
 for plugin ($plugins); do
@@ -115,3 +115,5 @@ export ANSIBLE_HOSTS=~/.ansible_hosts
 [[ -n "${key[PageDown]}" ]]  && bindkey  "${key[PageDown]}"  history-beginning-search-forward
 
 alias bro-column="sed \"s/fields.//;s/types.//\" | column -s $'\t' -t"
+
+export GOPATH="$HOME/go
