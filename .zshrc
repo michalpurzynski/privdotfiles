@@ -116,4 +116,4 @@ export ANSIBLE_HOSTS=~/.ansible_hosts
 
 alias bro-column="sed \"s/fields.//;s/types.//\" | column -s $'\t' -t"
 
-export GOPATH="$HOME/go
+export GOPATH="$HOME/go"
