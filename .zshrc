@@ -68,7 +68,7 @@ cmd_exists () {
     type "$1" &> /dev/null ;
 }
 
-export PATH=$PATH:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/X11/bin:/usr/local/MacGPG2/bin
+export PATH=/usr/local/bin:$PATH:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/local/MacGPG2/bin
 
 if cmd_exists keychain ; then
     eval `keychain --eval --agents ssh --inherit any`
