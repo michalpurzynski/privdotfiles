@@ -70,18 +70,15 @@ cmd_exists () {
 
 export PATH=/usr/local/bin:$PATH:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/local/MacGPG2/bin
 
-if cmd_exists keychain ; then
-    eval `keychain --eval --agents ssh --inherit any`
-    #eval `gpg-agent --enable-ssh-support --daemon --write-env-file ~/.gnupg/.agent_env`
-    #source ~/.gnupg/.agent_env
-fi
+/usr/bin/ssh-add -A
+
 gnupginf="${HOME}/.gpg-agent-info"
 if cmd_exists gpg-agent; then
     if pgrep -u "${USER}" gpg-agent >/dev/null 2>&1; then
-        eval `cat $gnupginf`
-        eval `cut -d= -f1 $gnupginf | xargs echo export`
+        . "${HOME}/.gpg-agent-info"
+        export GPG_AGENT_INFO
+        export SSH_AUTH_SOCK
     else
-        #eval `gpg-agent -s --enable-ssh-support --daemon --write-env-file $gnupginf`
         eval `gpg-agent -s --daemon --write-env-file $gnupginf`
     fi
 fi
